@@ -16,4 +16,4 @@ add_library(image_feature_matching src/image_feature_matching.cpp)
 target_link_libraries(image_feature_matching ${catkin_LIBRARIES})
 
 add_executable(feature_extraction src/feature_extraction.cpp)
-target_link_libraries(feature_extraction ${catkin_LIBRARIES})
+target_link_libraries(feature_extraction image_feature_matching ${catkin_LIBRARIES})

@@ -5,6 +5,8 @@
 #include <vector>
 #include <string>
 
+#include <boost/shared_ptr.hpp>
+
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/features2d/features2d.hpp>
@@ -14,7 +16,8 @@ namespace yagokoro_recognition {
 
 class ImageFeatureMatching {
  public:
-  ImageFeatureMatching();
+  ImageFeatureMatching(const std::string& detector_type,
+                       const std::string& extractor_type);
   ~ImageFeatureMatching();
 
 
@@ -84,9 +87,9 @@ class ImageFeatureMatching {
   std::vector<cv::Mat> image_vector_;
   std::vector<std::vector<cv::KeyPoint> > keypoints_vector_;
   std::vector<cv::Mat> descriptors_vector_;
-
-
 };
+
+typedef boost::shared_ptr<ImageFeatureMatching> ImageFeatureMatchingPtr;
 
 }  // namespace
 

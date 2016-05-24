@@ -16,10 +16,7 @@
 #include <cv_bridge/cv_bridge.h>
 #include <sensor_msgs/image_encodings.h>
 
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/features2d/features2d.hpp>
-#include <opencv2/legacy/legacy.hpp>
+#include "yagokoro_recognition/image_feature_matching.hpp"
 
 using namespace message_filters::sync_policies;
 
@@ -54,11 +51,7 @@ class FeatureExtraction {
   boost::shared_ptr<ApproximateSync> approximate_sync_;
 
   /// feature extraction
-  cv::Ptr<cv::FeatureDetector> detector_;
-  cv::Ptr<cv::DescriptorExtractor> extractor_;
-
-  std::vector<cv::KeyPoint> keypoints_;
-  cv::Mat descriptors_;
+  ImageFeatureMatchingPtr image_feature_;
 };
 
 }  // namespace

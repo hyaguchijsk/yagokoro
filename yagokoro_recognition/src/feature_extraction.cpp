@@ -3,11 +3,8 @@
 namespace yagokoro_recognition {
 
 FeatureExtraction::FeatureExtraction(ros::NodeHandle& n, ros::NodeHandle& np)
-    : n_(n), np_(np), it_(n) {
-  /// feature extractor
-  detector_ = cv::FeatureDetector::create("GridFAST");
-  extractor_ = cv::DescriptorExtractor::create("OpponentBRIEF");
-
+    : n_(n), np_(np), it_(n),
+      image_feature_(new ImageFeatureMatching("GridFAST", "OpponentBRIEF")){
   /// subscriber
   image_transport::TransportHints hints("raw", ros::TransportHints(), np_);
 
@@ -40,11 +37,12 @@ void FeatureExtraction::ImageCallback(
                                  sensor_msgs::image_encodings::BGR8);
     cv_ptr->image.copyTo(image);
 
-    detector_->detect(image, keypoints_);
-    extractor_->compute(image, keypoints_, descriptors_);
+    image_feature_->InputImage(image);
+    image_feature_->DetectFeatures();
+    image_feature_->ExtractDescriptors();
 
     cv::Mat out_image;
-    cv::drawKeypoints(image, keypoints_, out_image);
+    cv::drawKeypoints(image, image_feature_->KeyPoints(), out_image);
     cv::imshow("FeatureExtraction", out_image);
   } catch (cv_bridge::Exception& ex) {
     ROS_ERROR("%s", ex.what());

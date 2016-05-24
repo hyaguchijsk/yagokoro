@@ -2,7 +2,11 @@
 
 namespace yagokoro_recognition {
 
-ImageFeatureMatching::ImageFeatureMatching() {
+ImageFeatureMatching::ImageFeatureMatching(
+    const std::string& detector_type = "GridFAST",
+    const std::string& extractor_type = "OpponentBRIEF") {
+  detector_ = cv::FeatureDetector::create(detector_type);
+  extractor_ = cv::DescriptorExtractor::create(extractor_type);
 }
 ImageFeatureMatching::~ImageFeatureMatching() {
 }
